@@ -1,46 +1,42 @@
 <?php
 
-$casosDeTeste = readline();
-$numerosCasos;
+$casosDeTeste = intval(readline());
 
 for ($i = 0; $i < $casosDeTeste; $i++) {
-    $numeros = readline();
+    // Lê e separa os valores de entrada
+    $numeros = explode(" ", readline());
 
-    //separando os espaços dos números, e retornando num array
-    $numeros = explode(" ", $numeros);
+    // Converte os valores corretamente
+    $populacaoA = intval($numeros[0]);
+    $populacaoB = intval($numeros[1]);
+    $taxaA = floatval($numeros[2]) / 100;
+    $taxaB = floatval($numeros[3]) / 100;
 
-    foreach ($numeros as $numero) {
-        $populacaoETaxas[] = $numero;
-    }
+    // Valida as restrições do problema
+    if ($populacaoA >= 100 && $populacaoA < 1000000 &&
+        $populacaoB >= 100 && $populacaoB <= 1000000 &&
+        $populacaoA < $populacaoB &&
+        $taxaA > $taxaB) {
 
-    $numerosCasos[$i] = $populacaoETaxas;
+        $anos = 0;
 
-    //esvazia array
-    unset($populacaoETaxas);
-}
+        // Enquanto a população de A for menor que B, calculamos o crescimento
+        while ($populacaoA <= $populacaoB) {
+            //floor arredonda as frações par baixo
+            $populacaoA += floor($populacaoA * $taxaA);
+            $populacaoB += floor($populacaoB * $taxaB);
+            $anos++;
 
-for($i = 0; $i < $casosDeTeste; $i++){
-    if(($numerosCasos[$i][0] || $numerosCasos[$i][1] > 100) || ($numerosCasos[$i][0] || $numerosCasos[$i][1] < 1000000))
-    {
-        if ( $numerosCasos[$i][2] > $numerosCasos[$i][3] )
-        {
-            $populacaoA = $numerosCasos[$i][0];
-            $populacaoB = $numerosCasos[$i][1];
-            $taxaA = ($numerosCasos[$i][2])/100;
-            $taxaB = ($numerosCasos[$i][3])/100;
-            $anos = 0;
-
-            while($populacaoB > $populacaoA){
-                $populacaoA += $populacaoA * $taxaA;
-                $populacaoB += $populacaoB * $taxaB;                
-                $anos++;
-            }
-
-            if ($anos > 100){
+            // Interrompe se o tempo for maior que 100 anos
+            if ($anos > 100) {
                 echo "Mais de 1 seculo.\n";
-            }else{
-                echo "$anos anos.\n";
+                break;
             }
+        }
+
+        // Se ainda não imprimimos a saída, significa que encontramos um valor dentro do limite
+        if ($anos <= 100) {
+            echo "$anos anos.\n";
         }
     }
 }
