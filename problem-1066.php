@@ -25,6 +25,7 @@
 
 
 //recebe os valores
+<?php
 function recebeValores()
 {
     $valores = [];
@@ -44,10 +45,14 @@ function main ()
     $countNegativos = 0;
 
     foreach ($valores as $num ) {
-        $num > 0 ? $countPositivos++ : $countNegativos++;
+        if($num > 0){
+            $countPositivos++;
+        }
+        if($num < 0){
+            $countNegativos++;
+        }
         $num % 2 == 0 ? $countPares++ : $countImpares++;
     }
-    echo PHP_EOL;
     echo "$countPares valor(es) par(es)\n";
     echo "$countImpares valor(es) impar(es)\n";
     echo "$countPositivos valor(es) positivo(s)\n";
