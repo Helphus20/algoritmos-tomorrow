@@ -1,6 +1,7 @@
 <?php
 
 $casosDeTeste = intval(readline());
+$anosPorCidade = [];
 
 for ($i = 0; $i < $casosDeTeste; $i++) {
     // Lê e separa os valores de entrada
@@ -22,21 +23,36 @@ for ($i = 0; $i < $casosDeTeste; $i++) {
 
         // Enquanto a população de A for menor que B, calculamos o crescimento
         while ($populacaoA <= $populacaoB) {
-            //floor arredonda as frações par baixo
+            //floor arredonda as frações para baixo
             $populacaoA += floor($populacaoA * $taxaA);
             $populacaoB += floor($populacaoB * $taxaB);
             $anos++;
 
             // Interrompe se o tempo for maior que 100 anos
             if ($anos > 100) {
-                echo "Mais de 1 seculo.\n";
+                $anos = 101;
+                array_push($anosPorCidade, $anos);
                 break;
             }
         }
-
+    
         // Se ainda não imprimimos a saída, significa que encontramos um valor dentro do limite
         if ($anos <= 100) {
-            echo "$anos anos.\n";
+            array_push($anosPorCidade, $anos);
         }
     }
 }
+
+function output($anosPorCidade)
+{
+    foreach ($anosPorCidade as $item){
+        if ($item <= 100){
+            echo "$item anos.\n";
+        }
+        if ($item === 101){
+            echo "Mais de 1 seculo.\n";
+        }
+    }
+}
+
+output($anosPorCidade);
